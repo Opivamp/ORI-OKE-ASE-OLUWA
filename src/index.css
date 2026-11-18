@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+  
+  body {
+    background-color: #F8F7F0;
+    color: #17251D;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  }
+
+  .font-scripture {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f0e9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #06452F;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #003B27;
+}
+
+/* Subtle elevation classes */
+.card-shadow {
+  box-shadow: 0 4px 20px -2px rgba(6, 69, 47, 0.07), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+}
+
+.gold-gradient-btn {
+  background: linear-gradient(135deg, #F4C430 0%, #D9A928 100%);
+  color: #17251D;
+  transition: all 0.25s ease;
+}
+
+.gold-gradient-btn:hover {
+  background: linear-gradient(135deg, #F9D558 0%, #E5B738 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(217, 169, 40, 0.35);
+}
+
+.green-strip {
+  background-color: #06452F;
+}
+
+.deep-green-bg {
+  background-color: #003B27;
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
