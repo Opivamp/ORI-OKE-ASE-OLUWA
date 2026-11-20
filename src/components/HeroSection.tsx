@@ -15,13 +15,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
       {/* Background Hero Image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/images/hero-mountain.png" 
+          src="/images/hero.jpg" 
           alt="Ori Oke Ase Oluwa Prayer Mountain Sanctuary"
-          className="w-full h-full object-cover object-center lg:object-[center_top]"
+          className="w-full h-full object-cover object-center"
         />
-        {/* Responsive Gradient Overlays to guarantee high text contrast matching reference */}
-        <div className="absolute inset-0 bg-gradient-to-r from-ministry-forest/95 via-ministry-forest/75 to-transparent sm:via-ministry-forest/60 lg:via-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ministry-forest/80 via-transparent to-black/20 lg:hidden" />
+        {/* Responsive Gradient Overlays for readable text and authentic photograph visibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-ministry-forest/95 via-ministry-forest/80 to-ministry-forest/30 sm:via-ministry-forest/60 sm:to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ministry-forest/85 via-transparent to-black/30 lg:hidden" />
       </div>
 
       {/* Hero Content Container */}

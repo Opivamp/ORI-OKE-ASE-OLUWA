@@ -9,14 +9,14 @@ export const CtaBanner: React.FC<CtaBannerProps> = ({ onNavigate }) => {
   return (
     <section className="relative overflow-hidden rounded-2xl shadow-elevated bg-ministry-forest border-2 border-ministry-gold/40">
       
-      {/* Background Graphic matching screenshot */}
+      {/* Text-Free Background Graphic */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/images/banner-encounter.png" 
-          alt="Come and Encounter God on the Prayer Mountain"
+          src="/images/banner-encounter-clean.jpg" 
+          alt="Prayer Mountain Sanctuary Background"
           className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-ministry-forest/90 via-ministry-forest/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ministry-forest/90 via-ministry-forest/40 to-transparent" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 py-8 sm:py-10 flex flex-col sm:flex-row items-center justify-between gap-6 text-white">

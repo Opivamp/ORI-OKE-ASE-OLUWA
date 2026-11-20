@@ -352,86 +352,99 @@
         { id: 'home', label: 'Home' },
         { id: 'about', label: 'About Us' },
         { id: 'programmes', label: 'Prayer & Retreats' },
-        { id: 'events', label: 'Events' },
         { id: 'facilities', label: 'Facilities' },
         { id: 'gallery', label: 'Gallery' },
         { id: 'testimonies', label: 'Testimonies' },
         { id: 'contact', label: 'Contact' }
       ];
 
-      return h('header', { className: "sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm py-2 sm:py-2.5" },
-        h('div', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4" },
+      return h('header', { className: "sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm py-2.5 sm:py-3 transition-all duration-300" },
+        h('div', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-6" },
+          // Brand Logo + Title
           h('div', {
             onClick: () => navigate('home'),
             className: "flex items-center gap-3 cursor-pointer group shrink-0"
           },
-            h('div', { className: "w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden p-0.5 border border-ministry-gold/60 shadow-sm bg-white shrink-0" },
+            h('div', { className: "w-11 h-11 sm:w-12 sm:h-12 rounded-full overflow-hidden p-0.5 ring-2 ring-ministry-gold/60 shadow-sm bg-white shrink-0 group-hover:scale-105 transition-transform" },
               h('img', {
-                src: "/images/logo-badge.png",
+                src: "/images/logo.jpg",
                 alt: "Ori Oke Ase Oluwa Logo",
-                className: "w-full h-full object-contain rounded-full"
+                className: "w-full h-full object-cover rounded-full"
               })
             ),
             h('div', { className: "flex flex-col text-left" },
-              h('span', { className: "font-extrabold text-sm sm:text-base lg:text-lg tracking-tight text-ministry-forest leading-none" }, "ORI OKE ASE OLUWA"),
-              h('span', { className: "font-bold text-xs sm:text-sm text-ministry-forest tracking-normal mt-0.5" }, "(IBUDO IYANU)"),
-              h('span', { className: "text-[10px] sm:text-xs text-gray-500 font-serif italic hidden sm:block" }, "Prayer, Spiritual Empowerment and Transformation.")
+              h('span', { className: "font-serif font-bold text-base sm:text-lg lg:text-xl tracking-tight text-ministry-forest group-hover:text-ministry-deep transition-colors leading-tight" }, "ORI OKE ASE OLUWA"),
+              h('span', { className: "text-xs sm:text-sm font-bold text-ministry-gold tracking-wide" }, "(IBUDO IYANU)")
             )
           ),
 
-          h('nav', { className: "hidden xl:flex items-center space-x-1 font-medium text-xs lg:text-sm text-gray-700" },
-            navLinks.map(link =>
-              h('button', {
+          // Desktop Links - Free, stylish, airy with underline indicator
+          h('nav', { className: "hidden lg:flex items-center gap-6 xl:gap-8 font-medium text-sm text-gray-700" },
+            navLinks.map(link => {
+              const isActive = currentPage === link.id;
+              return h('button', {
                 key: link.id,
                 onClick: () => navigate(link.id),
-                className: `px-3 py-1.5 rounded-full transition-all ${
-                  currentPage === link.id
-                    ? 'bg-ministry-forest text-white font-semibold shadow-sm'
-                    : 'hover:text-ministry-forest hover:bg-gray-50'
+                className: `relative py-2 tracking-wide transition-all duration-200 group ${
+                  isActive ? 'text-ministry-forest font-bold' : 'text-gray-600 hover:text-ministry-forest'
                 }`
-              }, link.label)
-            ),
+              },
+                h('span', null, link.label),
+                isActive 
+                  ? h('span', { className: "absolute bottom-0 left-0 right-0 h-[2.5px] bg-ministry-gold rounded-full" })
+                  : h('span', { className: "absolute bottom-0 left-0 right-0 h-[2px] bg-ministry-forest/40 scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full" })
+              );
+            })
+          ),
+
+          // Desktop Right Action Area
+          h('div', { className: "hidden lg:flex items-center gap-3" },
             h('button', {
               onClick: () => setIsSearchOpen(true),
-              className: "p-2 text-gray-600 hover:text-ministry-forest hover:bg-gray-100 rounded-full transition-colors ml-1",
-              'aria-label': "Search"
+              className: "p-2.5 text-gray-500 hover:text-ministry-forest hover:bg-gray-50 rounded-full transition-colors",
+              'aria-label': "Search site"
             }, h(Icon, { name: "search", className: "w-4 h-4" })),
             h('button', {
               onClick: () => navigate('visit'),
-              className: "ml-2 bg-gradient-to-r from-ministry-gold to-ministry-warmGold text-ministry-dark font-bold px-4 py-2 rounded-full text-xs shadow-sm hover:shadow hover:brightness-105 active:scale-95 transition-all flex items-center gap-1.5"
+              className: "bg-gradient-to-r from-ministry-gold to-ministry-warmGold hover:brightness-105 active:scale-95 text-ministry-dark font-bold px-5 py-2.5 rounded-full text-xs sm:text-sm shadow-sm hover:shadow-md transition-all flex items-center gap-2"
             },
               h('span', null, "Plan Your Visit"),
               h(Icon, { name: "arrow-right", className: "w-3.5 h-3.5" })
             )
           ),
 
-          h('div', { className: "flex items-center gap-2 xl:hidden" },
+          // Mobile Right Buttons
+          h('div', { className: "flex items-center gap-2 lg:hidden" },
             h('button', {
               onClick: () => setIsSearchOpen(true),
-              className: "p-2 text-gray-600 hover:text-ministry-forest hover:bg-gray-100 rounded-full"
+              className: "p-2 text-gray-600 hover:text-ministry-forest hover:bg-gray-100 rounded-full",
+              'aria-label': "Search"
             }, h(Icon, { name: "search", className: "w-5 h-5" })),
             h('button', {
               onClick: () => setMobileMenuOpen(!mobileMenuOpen),
-              className: "p-2 text-ministry-forest hover:bg-gray-100 rounded-lg"
+              className: "p-2 text-ministry-forest hover:bg-gray-100 rounded-lg",
+              'aria-label': mobileMenuOpen ? "Close menu" : "Open menu"
             }, h(Icon, { name: mobileMenuOpen ? "x" : "menu", className: "w-6 h-6" }))
           )
         ),
 
-        mobileMenuOpen && h('div', { className: "xl:hidden bg-white border-t border-gray-100 px-4 pt-3 pb-6 shadow-xl animate-fade-in" },
-          h('div', { className: "flex flex-col space-y-1.5" },
-            navLinks.map(link =>
-              h('button', {
+        // Mobile Menu Drawer - Spacious and Clean
+        mobileMenuOpen && h('div', { className: "lg:hidden bg-white border-t border-gray-100 px-5 pt-4 pb-8 shadow-2xl animate-fade-in" },
+          h('div', { className: "flex flex-col space-y-2" },
+            navLinks.map(link => {
+              const isActive = currentPage === link.id;
+              return h('button', {
                 key: link.id,
                 onClick: () => navigate(link.id),
-                className: `text-left px-4 py-2.5 rounded-lg text-sm font-medium ${
-                  currentPage === link.id ? 'bg-ministry-forest text-white' : 'text-gray-800 hover:bg-gray-50'
+                className: `text-left px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                  isActive ? 'bg-ministry-forest text-white font-bold shadow-sm' : 'text-gray-800 hover:bg-gray-50'
                 }`
-              }, link.label)
-            ),
-            h('div', { className: "pt-2" },
+              }, link.label);
+            }),
+            h('div', { className: "pt-4 mt-2 border-t border-gray-100" },
               h('button', {
                 onClick: () => navigate('visit'),
-                className: "w-full bg-gradient-to-r from-ministry-gold to-ministry-warmGold text-ministry-dark font-bold py-3 rounded-xl shadow text-center flex items-center justify-center gap-2 text-sm"
+                className: "w-full bg-gradient-to-r from-ministry-gold to-ministry-warmGold text-ministry-dark font-extrabold py-3.5 rounded-xl shadow-md text-center flex items-center justify-center gap-2 text-sm"
               },
                 h('span', null, "PLAN YOUR VISIT"),
                 h(Icon, { name: "arrow-right", className: "w-4 h-4" })
@@ -447,12 +460,12 @@
       return h('section', { className: "relative overflow-hidden bg-ministry-forest min-h-[480px] lg:min-h-[540px] flex items-center" },
         h('div', { className: "absolute inset-0 z-0" },
           h('img', {
-            src: "/images/hero-mountain.png",
+            src: "/images/hero.jpg",
             alt: "Ori Oke Ase Oluwa Prayer Mountain Sanctuary",
-            className: "w-full h-full object-cover object-center lg:object-[center_top]"
+            className: "w-full h-full object-cover object-center"
           }),
-          h('div', { className: "absolute inset-0 bg-gradient-to-r from-ministry-forest/95 via-ministry-forest/70 to-transparent sm:via-ministry-forest/60 lg:via-transparent" }),
-          h('div', { className: "absolute inset-0 bg-gradient-to-t from-ministry-forest/80 via-transparent to-black/20 lg:hidden" })
+          h('div', { className: "absolute inset-0 bg-gradient-to-r from-ministry-forest/95 via-ministry-forest/75 to-transparent sm:via-ministry-forest/60 lg:via-ministry-forest/35" }),
+          h('div', { className: "absolute inset-0 bg-gradient-to-t from-ministry-forest/85 via-transparent to-black/25 lg:hidden" })
         ),
         h('div', { className: "relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 w-full" },
           h('div', { className: "flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8" },
@@ -637,20 +650,26 @@
           )
         ),
         h('div', { className: "p-4 sm:p-6 space-y-5 flex-1 bg-[#FCFCFA]" },
-          h('div', { className: "bg-white rounded-xl p-3 sm:p-4 border border-gray-200 shadow-sm flex items-center gap-4" },
-            h('div', { className: "relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-ministry-gold/60 shadow-md bg-gray-100" },
+          // Founder Card - Big, visible, and prominent
+          h('div', { className: "bg-white rounded-2xl p-4 sm:p-5 border border-gray-200 shadow-md flex flex-col sm:flex-row items-center sm:items-start gap-5" },
+            h('div', { className: "relative shrink-0 w-32 sm:w-36 md:w-40 h-44 sm:h-48 md:h-52 rounded-2xl overflow-hidden border-2 border-ministry-gold shadow-lg bg-gray-100 group" },
               h('img', {
-                src: "/images/founder-portrait.png",
+                src: "/images/founder.jpg",
                 alt: ministryData.founder,
-                className: "w-full h-full object-cover object-top",
-                onError: (e) => { e.currentTarget.src = "/images/real/photo_2026-11-18_02-00-40.jpg"; }
-              })
+                className: "w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+              }),
+              h('div', { className: "absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" })
             ),
-            h('div', { className: "flex-1 min-w-0" },
-              h('span', { className: "text-[11px] sm:text-xs uppercase font-bold text-gray-500 tracking-wider block mb-0.5" }, ministryData.founderTitle),
-              h('h3', { className: "font-serif text-base sm:text-xl font-bold text-ministry-forest leading-tight mb-2" }, ministryData.founder),
-              h('div', { className: "inline-block bg-gradient-to-r from-ministry-gold to-ministry-warmGold text-ministry-dark font-extrabold text-[11px] sm:text-xs px-3 py-1 rounded-full shadow-sm" },
-                `Established: ${ministryData.yearEstablished}`
+            h('div', { className: "flex-1 min-w-0 text-center sm:text-left flex flex-col justify-center py-1" },
+              h('span', { className: "inline-block text-[11px] sm:text-xs uppercase font-extrabold text-ministry-warmGold tracking-wider mb-1" }, ministryData.founderTitle),
+              h('h3', { className: "font-serif text-xl sm:text-2xl font-bold text-ministry-forest leading-tight mb-2" }, ministryData.founder),
+              h('div', { className: "inline-flex items-center gap-2 justify-center sm:justify-start mb-3" },
+                h('span', { className: "bg-gradient-to-r from-ministry-gold to-ministry-warmGold text-ministry-dark font-black text-xs px-3.5 py-1 rounded-full shadow-sm" },
+                  `Established: ${ministryData.yearEstablished}`
+                )
+              ),
+              h('p', { className: "text-xs sm:text-sm text-gray-600 leading-relaxed font-sans" },
+                "Visionary servant of God ministering under an apostolic mandate of prayer, deliverance, holiness, and the supernatural power of the Holy Spirit."
               )
             )
           ),
@@ -738,16 +757,16 @@
       );
     };
 
-    // PRE-FOOTER CTA BANNER
+    // PRE-FOOTER CTA BANNER - Pure text-free background
     const renderCtaBanner = () => {
       return h('section', { className: "relative overflow-hidden rounded-2xl shadow-elevated bg-ministry-forest border-2 border-ministry-gold/40" },
         h('div', { className: "absolute inset-0 z-0" },
           h('img', {
-            src: "/images/banner-encounter.png",
+            src: "/images/banner-encounter-clean.jpg",
             alt: "Come and Encounter God on the Prayer Mountain",
             className: "w-full h-full object-cover object-center"
           }),
-          h('div', { className: "absolute inset-0 bg-gradient-to-r from-ministry-forest/90 via-ministry-forest/60 to-transparent" })
+          h('div', { className: "absolute inset-0 bg-gradient-to-r from-ministry-forest/90 via-ministry-forest/40 to-transparent" })
         ),
         h('div', { className: "relative z-10 max-w-7xl mx-auto px-6 sm:px-8 py-8 sm:py-10 flex flex-col sm:flex-row items-center justify-between gap-6 text-white" },
           h('div', { className: "flex items-center gap-5 sm:gap-6 w-full sm:w-auto" },
@@ -787,7 +806,10 @@
             )
           ),
           h('div', { className: "pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-300" },
-            h('div', null, `© ${year} Ori Oke Ase Oluwa (Ibudo Iyanu). All Rights Reserved.`),
+            h('div', null,
+              `© ${year} Ori Oke Ase Oluwa (Ibudo Iyanu). All Rights Reserved. • Designed by `,
+              h('span', { className: "text-ministry-gold font-semibold" }, "'Opivamp'")
+            ),
             h('div', { className: "flex items-center gap-3 text-gray-300" },
               h('button', { onClick: () => setPrivacyModalType('privacy'), className: "hover:text-ministry-gold transition-colors" }, "Privacy Policy"),
               h('span', null, "|"),
@@ -982,20 +1004,19 @@
             )
           )
         ),
-        // Founder Profile
+        // Founder Profile - Grand, large, visible portrait
         h('div', { className: "bg-gradient-to-br from-ministry-forest to-ministry-deep text-white rounded-2xl shadow-elevated p-6 sm:p-10 border-2 border-ministry-gold/40" },
           h('div', { className: "grid grid-cols-1 md:grid-cols-12 gap-8 items-center" },
-            h('div', { className: "md:col-span-4 flex justify-center" },
-              h('div', { className: "w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden shadow-2xl border-4 border-ministry-gold bg-white" },
+            h('div', { className: "md:col-span-5 flex justify-center" },
+              h('div', { className: "w-60 h-80 sm:w-72 sm:h-96 md:w-80 md:h-[420px] rounded-2xl overflow-hidden shadow-2xl border-4 border-ministry-gold bg-white group" },
                 h('img', {
-                  src: "/images/founder-portrait.png",
+                  src: "/images/founder.jpg",
                   alt: ministryData.founder,
-                  className: "w-full h-full object-cover object-top",
-                  onError: (e) => { e.currentTarget.src = "/images/real/photo_2026-11-18_02-00-40.jpg"; }
+                  className: "w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
                 })
               )
             ),
-            h('div', { className: "md:col-span-8 space-y-4 text-left" },
+            h('div', { className: "md:col-span-7 space-y-4 text-left" },
               h('div', { className: "inline-block bg-ministry-gold text-ministry-dark font-extrabold text-xs px-3.5 py-1 rounded-full uppercase" }, "Ministry Leadership"),
               h('h2', { className: "font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight" }, ministryData.founder),
               h('p', { className: "font-serif italic text-ministry-gold text-lg sm:text-xl font-medium" }, `${ministryData.founderTitle} — Established 2014`),

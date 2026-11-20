@@ -88,20 +88,17 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         <div className="bg-gradient-to-br from-ministry-forest to-ministry-deep text-white rounded-2xl shadow-elevated overflow-hidden p-6 sm:p-10 border-2 border-ministry-gold/40">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             
-            <div className="md:col-span-4 flex justify-center">
-              <div className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden shadow-2xl border-4 border-ministry-gold bg-white">
+            <div className="md:col-span-5 flex justify-center">
+              <div className="relative w-60 h-80 sm:w-72 sm:h-96 md:w-80 md:h-[420px] rounded-2xl overflow-hidden shadow-2xl border-4 border-ministry-gold bg-white group">
                 <img 
-                  src="/images/founder-portrait.png" 
+                  src="/images/founder.jpg" 
                   alt={founder}
-                  className="w-full h-full object-cover object-top"
-                  onError={(e) => {
-                    e.currentTarget.src = "/images/real/photo_2026-11-18_02-00-40.jpg";
-                  }}
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
             </div>
 
-            <div className="md:col-span-8 space-y-4 text-left">
+            <div className="md:col-span-7 space-y-4 text-left">
               <div className="inline-block bg-ministry-gold text-ministry-dark font-extrabold text-xs px-3.5 py-1 rounded-full uppercase tracking-wider">
                 Ministry Leadership
               </div>

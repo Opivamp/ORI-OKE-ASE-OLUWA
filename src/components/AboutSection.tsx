@@ -31,30 +31,32 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onNavigate }) => {
 
       <div className="p-4 sm:p-6 space-y-5 flex-1 bg-[#FCFCFA]">
         
-        {/* Founder & General Overseer Header Card */}
-        <div className="bg-white rounded-xl p-3 sm:p-4 border border-gray-200 shadow-sm flex items-center gap-4">
-          <div className="relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-ministry-gold/60 shadow-md bg-gray-100">
+        {/* Founder & General Overseer Header Card - Big, Visible, and Prominent */}
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-gray-200 shadow-md flex flex-col sm:flex-row items-center sm:items-start gap-5">
+          <div className="relative shrink-0 w-32 sm:w-36 md:w-40 h-44 sm:h-48 md:h-52 rounded-2xl overflow-hidden border-2 border-ministry-gold shadow-lg bg-gray-100 group">
             <img 
-              src="/images/founder-portrait.png" 
+              src="/images/founder.jpg" 
               alt={founder}
-              className="w-full h-full object-cover object-top"
-              onError={(e) => {
-                // If crop image has issue, use real photo
-                e.currentTarget.src = "/images/real/photo_2026-11-18_02-00-40.jpg";
-              }}
+              className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
           </div>
 
-          <div className="flex-1 min-w-0">
-            <span className="text-[11px] sm:text-xs uppercase font-bold text-gray-500 tracking-wider block mb-0.5">
+          <div className="flex-1 min-w-0 text-center sm:text-left flex flex-col justify-center py-1">
+            <span className="inline-block text-[11px] sm:text-xs uppercase font-extrabold text-ministry-warmGold tracking-wider mb-1">
               {founderTitle}
             </span>
-            <h3 className="font-serif text-base sm:text-xl font-bold text-ministry-forest leading-tight mb-2">
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-ministry-forest leading-tight mb-2">
               {founder}
             </h3>
-            <div className="inline-block bg-gradient-to-r from-ministry-gold to-ministry-warmGold text-ministry-dark font-extrabold text-[11px] sm:text-xs px-3 py-1 rounded-full shadow-sm">
-              Established: {yearEstablished}
+            <div className="inline-flex items-center gap-2 justify-center sm:justify-start mb-3">
+              <span className="bg-gradient-to-r from-ministry-gold to-ministry-warmGold text-ministry-dark font-black text-xs px-3.5 py-1 rounded-full shadow-sm">
+                Established: {yearEstablished}
+              </span>
             </div>
+            <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-sans">
+              Visionary servant of God ministering under an apostolic mandate of prayer, deliverance, holiness, and the supernatural power of the Holy Spirit.
+            </p>
           </div>
         </div>
 

@@ -43,9 +43,9 @@ export const Footer: React.FC<FooterProps> = ({
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <img 
-                src="/images/logo-badge.png" 
+                src="/images/logo.jpg" 
                 alt="Ori Oke Ase Oluwa Logo"
-                className="w-12 h-12 object-contain rounded-full shadow-md bg-white p-0.5" 
+                className="w-12 h-12 object-cover rounded-full shadow-md bg-white ring-2 ring-ministry-gold/60" 
               />
               <div>
                 <h3 className="font-bold text-white text-base tracking-tight leading-none">
@@ -174,9 +174,9 @@ export const Footer: React.FC<FooterProps> = ({
         {/* Bottom Strip matching screenshot exactly */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-300">
           
-          {/* Copyright */}
+          {/* Copyright with Designer Credit */}
           <div>
-            © {currentYear} Ori Oke Ase Oluwa (Ibudo Iyanu). All Rights Reserved.
+            © {currentYear} Ori Oke Ase Oluwa (Ibudo Iyanu). All Rights Reserved. • Designed by <span className="text-ministry-gold font-semibold">Opivamp</span>
           </div>
 
           {/* Legal / Policy Links */}

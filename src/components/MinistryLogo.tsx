@@ -21,9 +21,9 @@ export const MinistryLogo: React.FC<MinistryLogoProps> = ({
         style={{ width: size, height: size }}
       >
         <img 
-          src="/images/logo-badge.png" 
+          src="/images/logo.jpg" 
           alt="Ori Oke Ase Oluwa (Ibudo Iyanu) Official Logo" 
-          className="w-full h-full object-contain rounded-full"
+          className="w-full h-full object-cover rounded-full"
           onError={(e) => {
             // Fallback if image path has issue
             const target = e.currentTarget;

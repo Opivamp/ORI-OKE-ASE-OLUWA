@@ -1,21 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  ChevronDown, 
   Menu, 
   X, 
   Search, 
-  ArrowRight,
-  Compass,
-  Users,
-  Eye,
-  Calendar,
-  Building2,
-  Image as ImageIcon,
-  MessageSquare,
-  PhoneCall,
-  Sparkles
+  ArrowRight
 } from 'lucide-react';
-import { MinistryLogo } from './MinistryLogo';
 
 interface NavigationProps {
   currentPage: string;
@@ -29,9 +18,6 @@ export const Navigation: React.FC<NavigationProps> = ({
   onOpenSearch
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
-  const [prayerDropdownOpen, setPrayerDropdownOpen] = useState(false);
-  const [facilityDropdownOpen, setFacilityDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -45,16 +31,23 @@ export const Navigation: React.FC<NavigationProps> = ({
   const handleNavClick = (page: string) => {
     onNavigate(page);
     setMobileMenuOpen(false);
-    setAboutDropdownOpen(false);
-    setPrayerDropdownOpen(false);
-    setFacilityDropdownOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navItems = [
+    { id: 'home', label: 'Home' },
+    { id: 'about', label: 'About Us' },
+    { id: 'programmes', label: 'Prayer & Retreats' },
+    { id: 'facilities', label: 'Facilities' },
+    { id: 'gallery', label: 'Gallery' },
+    { id: 'testimonies', label: 'Testimonies' },
+    { id: 'contact', label: 'Contact' },
+  ];
+
   return (
-    <header className={`sticky top-0 z-50 bg-white transition-all duration-300 ${isScrolled ? 'shadow-md py-1.5' : 'py-2.5 sm:py-3'} border-b border-gray-100`}>
+    <header className={`sticky top-0 z-50 bg-white/95 backdrop-blur-md transition-all duration-300 ${isScrolled ? 'shadow-sm py-2' : 'py-3 sm:py-3.5'} border-b border-gray-100`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-6">
           
           {/* Brand Identity / Logo */}
           <div 
@@ -63,272 +56,69 @@ export const Navigation: React.FC<NavigationProps> = ({
           >
             <div className="relative">
               <img 
-                src="/images/logo-badge.png" 
+                src="/images/logo.jpg" 
                 alt="Ori Oke Ase Oluwa Logo"
-                className="w-12 h-12 sm:w-14 sm:h-14 object-contain rounded-full shadow-sm group-hover:scale-105 transition-transform"
+                className="w-11 h-11 sm:w-12 sm:h-12 object-cover rounded-full shadow-sm ring-2 ring-ministry-gold/60 group-hover:scale-105 transition-transform"
               />
             </div>
             <div className="flex flex-col text-left">
-              <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-sm sm:text-base lg:text-lg tracking-tight text-ministry-forest group-hover:text-ministry-deep transition-colors">
-                  ORI OKE ASE OLUWA
-                </span>
-              </div>
-              <span className="font-bold text-xs sm:text-sm text-ministry-forest tracking-normal -mt-0.5">
-                (IBUDO IYANU)
+              <span className="font-serif font-bold text-base sm:text-lg lg:text-xl tracking-tight text-ministry-forest group-hover:text-ministry-deep transition-colors leading-tight">
+                ORI OKE ASE OLUWA
               </span>
-              <span className="text-[10px] sm:text-xs text-gray-500 font-serif italic hidden sm:block">
-                Prayer, Spiritual Empowerment and Transformation.
+              <span className="text-xs sm:text-sm font-bold text-ministry-gold tracking-wide">
+                (IBUDO IYANU)
               </span>
             </div>
           </div>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden xl:flex items-center space-x-1 lg:space-x-1.5 text-xs lg:text-sm font-medium text-gray-700">
-            
-            {/* Home */}
-            <button
-              onClick={() => handleNavClick('home')}
-              className={`px-3 py-1.5 rounded-full transition-all ${
-                currentPage === 'home'
-                  ? 'bg-ministry-forest text-white font-semibold shadow-sm'
-                  : 'hover:text-ministry-forest hover:bg-gray-50'
-              }`}
-            >
-              Home
-            </button>
+          {/* Desktop Navigation Links - Stylish, Free & Airy */}
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-medium text-gray-700">
+            {navItems.map((item) => {
+              const isActive = currentPage === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavClick(item.id)}
+                  className={`relative py-2 tracking-wide transition-all duration-200 group ${
+                    isActive 
+                      ? 'text-ministry-forest font-bold' 
+                      : 'text-gray-600 hover:text-ministry-forest'
+                  }`}
+                >
+                  <span>{item.label}</span>
+                  {isActive ? (
+                    <span className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-ministry-gold rounded-full" />
+                  ) : (
+                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-ministry-forest/40 scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full" />
+                  )}
+                </button>
+              );
+            })}
+          </nav>
 
-            {/* About Us (With Dropdown) */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setAboutDropdownOpen(true)}
-              onMouseLeave={() => setAboutDropdownOpen(false)}
-            >
-              <button
-                onClick={() => handleNavClick('about')}
-                className={`flex items-center gap-1 px-3 py-1.5 rounded-full transition-all ${
-                  currentPage === 'about'
-                    ? 'bg-ministry-forest text-white font-semibold shadow-sm'
-                    : 'hover:text-ministry-forest hover:bg-gray-50'
-                }`}
-              >
-                <span>About Us</span>
-                <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
-              </button>
-
-              {aboutDropdownOpen && (
-                <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-card border border-gray-100 py-2 animate-fade-in z-50">
-                  <button
-                    onClick={() => handleNavClick('about')}
-                    className="w-full text-left px-4 py-2 hover:bg-ministry-ivory text-xs sm:text-sm flex items-center gap-2.5 text-ministry-dark hover:text-ministry-forest"
-                  >
-                    <Compass className="w-4 h-4 text-ministry-gold" />
-                    <div>
-                      <div className="font-medium">About the Mountain</div>
-                      <div className="text-[11px] text-gray-500">History, origin & sacred mission</div>
-                    </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('about')}
-                    className="w-full text-left px-4 py-2 hover:bg-ministry-ivory text-xs sm:text-sm flex items-center gap-2.5 text-ministry-dark hover:text-ministry-forest"
-                  >
-                    <Users className="w-4 h-4 text-ministry-gold" />
-                    <div>
-                      <div className="font-medium">Prophet Sunday Olawale</div>
-                      <div className="text-[11px] text-gray-500">Founder & General Overseer</div>
-                    </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('about')}
-                    className="w-full text-left px-4 py-2 hover:bg-ministry-ivory text-xs sm:text-sm flex items-center gap-2.5 text-ministry-dark hover:text-ministry-forest"
-                  >
-                    <Eye className="w-4 h-4 text-ministry-gold" />
-                    <div>
-                      <div className="font-medium">Our Vision & 9 Missions</div>
-                      <div className="text-[11px] text-gray-500">Divine mandate & calling</div>
-                    </div>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Prayer & Retreats (With Dropdown) */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setPrayerDropdownOpen(true)}
-              onMouseLeave={() => setPrayerDropdownOpen(false)}
-            >
-              <button
-                onClick={() => handleNavClick('programmes')}
-                className={`flex items-center gap-1 px-3 py-1.5 rounded-full transition-all ${
-                  currentPage === 'programmes'
-                    ? 'bg-ministry-forest text-white font-semibold shadow-sm'
-                    : 'hover:text-ministry-forest hover:bg-gray-50'
-                }`}
-              >
-                <span>Prayer & Retreats</span>
-                <ChevronDown className="w-3.5 h-3.5" />
-              </button>
-
-              {prayerDropdownOpen && (
-                <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-card border border-gray-100 py-2 animate-fade-in z-50">
-                  <button
-                    onClick={() => handleNavClick('programmes')}
-                    className="w-full text-left px-4 py-2 hover:bg-ministry-ivory text-xs sm:text-sm flex items-center gap-2.5 text-ministry-dark hover:text-ministry-forest"
-                  >
-                    <Calendar className="w-4 h-4 text-ministry-gold" />
-                    <div>
-                      <div className="font-medium">Daily & Sunday Services</div>
-                      <div className="text-[11px] text-gray-500">Regular prayer timetables</div>
-                    </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('programmes')}
-                    className="w-full text-left px-4 py-2 hover:bg-ministry-ivory text-xs sm:text-sm flex items-center gap-2.5 text-ministry-dark hover:text-ministry-forest"
-                  >
-                    <Sparkles className="w-4 h-4 text-ministry-gold" />
-                    <div>
-                      <div className="font-medium">Special Monthly Vigils</div>
-                      <div className="text-[11px] text-gray-500">Night of Encounter & Deliverance</div>
-                    </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('visit')}
-                    className="w-full text-left px-4 py-2 hover:bg-ministry-ivory text-xs sm:text-sm flex items-center gap-2.5 text-ministry-dark hover:text-ministry-forest"
-                  >
-                    <Building2 className="w-4 h-4 text-ministry-gold" />
-                    <div>
-                      <div className="font-medium">Personal Retreats</div>
-                      <div className="text-[11px] text-gray-500">Private fasting & prayer stays</div>
-                    </div>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Events */}
-            <button
-              onClick={() => handleNavClick('events')}
-              className={`px-3 py-1.5 rounded-full transition-all ${
-                currentPage === 'events'
-                  ? 'bg-ministry-forest text-white font-semibold shadow-sm'
-                  : 'hover:text-ministry-forest hover:bg-gray-50'
-              }`}
-            >
-              Events
-            </button>
-
-            {/* Facilities (With Dropdown) */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setFacilityDropdownOpen(true)}
-              onMouseLeave={() => setFacilityDropdownOpen(false)}
-            >
-              <button
-                onClick={() => handleNavClick('facilities')}
-                className={`flex items-center gap-1 px-3 py-1.5 rounded-full transition-all ${
-                  currentPage === 'facilities'
-                    ? 'bg-ministry-forest text-white font-semibold shadow-sm'
-                    : 'hover:text-ministry-forest hover:bg-gray-50'
-                }`}
-              >
-                <span>Facilities</span>
-                <ChevronDown className="w-3.5 h-3.5" />
-              </button>
-
-              {facilityDropdownOpen && (
-                <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-card border border-gray-100 py-2 animate-fade-in z-50">
-                  <button
-                    onClick={() => handleNavClick('facilities')}
-                    className="w-full text-left px-4 py-2 hover:bg-ministry-ivory text-xs sm:text-sm flex items-center gap-2.5 text-ministry-dark hover:text-ministry-forest"
-                  >
-                    <Building2 className="w-4 h-4 text-ministry-gold" />
-                    <div>
-                      <div className="font-medium">Prayer Auditorium</div>
-                      <div className="text-[11px] text-gray-500">Terrazzo altar & worship hall</div>
-                    </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('facilities')}
-                    className="w-full text-left px-4 py-2 hover:bg-ministry-ivory text-xs sm:text-sm flex items-center gap-2.5 text-ministry-dark hover:text-ministry-forest"
-                  >
-                    <Building2 className="w-4 h-4 text-ministry-gold" />
-                    <div>
-                      <div className="font-medium">Accommodation Lodges</div>
-                      <div className="text-[11px] text-gray-500">Guest chalets and rooms</div>
-                    </div>
-                  </button>
-                  <button
-                    onClick={() => handleNavClick('facilities')}
-                    className="w-full text-left px-4 py-2 hover:bg-ministry-ivory text-xs sm:text-sm flex items-center gap-2.5 text-ministry-dark hover:text-ministry-forest"
-                  >
-                    <Compass className="w-4 h-4 text-ministry-gold" />
-                    <div>
-                      <div className="font-medium">Prayer Grounds & Gazebo</div>
-                      <div className="text-[11px] text-gray-500">Serene tree-shaded areas</div>
-                    </div>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Gallery */}
-            <button
-              onClick={() => handleNavClick('gallery')}
-              className={`px-3 py-1.5 rounded-full transition-all ${
-                currentPage === 'gallery'
-                  ? 'bg-ministry-forest text-white font-semibold shadow-sm'
-                  : 'hover:text-ministry-forest hover:bg-gray-50'
-              }`}
-            >
-              Gallery
-            </button>
-
-            {/* Testimonies */}
-            <button
-              onClick={() => handleNavClick('testimonies')}
-              className={`px-3 py-1.5 rounded-full transition-all ${
-                currentPage === 'testimonies'
-                  ? 'bg-ministry-forest text-white font-semibold shadow-sm'
-                  : 'hover:text-ministry-forest hover:bg-gray-50'
-              }`}
-            >
-              Testimonies
-            </button>
-
-            {/* Contact */}
-            <button
-              onClick={() => handleNavClick('contact')}
-              className={`px-3 py-1.5 rounded-full transition-all ${
-                currentPage === 'contact'
-                  ? 'bg-ministry-forest text-white font-semibold shadow-sm'
-                  : 'hover:text-ministry-forest hover:bg-gray-50'
-              }`}
-            >
-              Contact
-            </button>
-
-            {/* Search Icon */}
+          {/* Right Action Area */}
+          <div className="hidden lg:flex items-center gap-3">
+            {/* Minimalist Search Button */}
             <button
               onClick={onOpenSearch}
               aria-label="Search site"
-              className="p-2 text-gray-600 hover:text-ministry-forest hover:bg-gray-100 rounded-full transition-colors ml-1"
+              className="p-2.5 text-gray-500 hover:text-ministry-forest hover:bg-gray-50 rounded-full transition-colors"
             >
               <Search className="w-4 h-4" />
             </button>
 
-            {/* Plan Your Visit Gold Button */}
+            {/* Plan Your Visit Stylish Gold Pill */}
             <button
               onClick={() => handleNavClick('visit')}
-              className="ml-2 bg-gradient-to-r from-ministry-gold to-ministry-warmGold text-ministry-dark font-semibold px-4 py-2 rounded-full text-xs shadow-sm hover:shadow-md hover:brightness-105 active:scale-95 transition-all flex items-center gap-1.5"
+              className="bg-gradient-to-r from-ministry-gold to-ministry-warmGold hover:brightness-105 active:scale-95 text-ministry-dark font-bold px-5 py-2.5 rounded-full text-xs sm:text-sm shadow-sm hover:shadow-md transition-all flex items-center gap-2"
             >
               <span>Plan Your Visit</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
-          </nav>
+          </div>
 
           {/* Mobile Right Controls: Search + Hamburger */}
-          <div className="flex items-center gap-2 xl:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             <button
               onClick={onOpenSearch}
               aria-label="Search"
@@ -348,103 +138,31 @@ export const Navigation: React.FC<NavigationProps> = ({
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer Menu - Clean & Spacious */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-white border-t border-gray-100 px-4 pt-3 pb-6 shadow-xl animate-fade-in">
-          <div className="flex flex-col space-y-1.5">
-            
-            <button
-              onClick={() => handleNavClick('home')}
-              className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                currentPage === 'home'
-                  ? 'bg-ministry-forest text-white'
-                  : 'text-gray-800 hover:bg-gray-50'
-              }`}
-            >
-              Home
-            </button>
+        <div className="lg:hidden bg-white border-t border-gray-100 px-5 pt-4 pb-8 shadow-2xl animate-fade-in">
+          <div className="flex flex-col space-y-2">
+            {navItems.map((item) => {
+              const isActive = currentPage === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavClick(item.id)}
+                  className={`text-left px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                    isActive
+                      ? 'bg-ministry-forest text-white font-bold shadow-sm'
+                      : 'text-gray-800 hover:bg-gray-50 hover:text-ministry-forest'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
 
-            <button
-              onClick={() => handleNavClick('about')}
-              className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                currentPage === 'about'
-                  ? 'bg-ministry-forest text-white'
-                  : 'text-gray-800 hover:bg-gray-50'
-              }`}
-            >
-              About Us (Founder, Vision & Missions)
-            </button>
-
-            <button
-              onClick={() => handleNavClick('programmes')}
-              className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                currentPage === 'programmes'
-                  ? 'bg-ministry-forest text-white'
-                  : 'text-gray-800 hover:bg-gray-50'
-              }`}
-            >
-              Prayer & Retreats (Timetable & Vigils)
-            </button>
-
-            <button
-              onClick={() => handleNavClick('events')}
-              className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                currentPage === 'events'
-                  ? 'bg-ministry-forest text-white'
-                  : 'text-gray-800 hover:bg-gray-50'
-              }`}
-            >
-              Events & Special Programmes
-            </button>
-
-            <button
-              onClick={() => handleNavClick('facilities')}
-              className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                currentPage === 'facilities'
-                  ? 'bg-ministry-forest text-white'
-                  : 'text-gray-800 hover:bg-gray-50'
-              }`}
-            >
-              Facilities & Accommodation
-            </button>
-
-            <button
-              onClick={() => handleNavClick('gallery')}
-              className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                currentPage === 'gallery'
-                  ? 'bg-ministry-forest text-white'
-                  : 'text-gray-800 hover:bg-gray-50'
-              }`}
-            >
-              Photo Gallery
-            </button>
-
-            <button
-              onClick={() => handleNavClick('testimonies')}
-              className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                currentPage === 'testimonies'
-                  ? 'bg-ministry-forest text-white'
-                  : 'text-gray-800 hover:bg-gray-50'
-              }`}
-            >
-              Testimonies
-            </button>
-
-            <button
-              onClick={() => handleNavClick('contact')}
-              className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                currentPage === 'contact'
-                  ? 'bg-ministry-forest text-white'
-                  : 'text-gray-800 hover:bg-gray-50'
-              }`}
-            >
-              Contact Us
-            </button>
-
-            <div className="pt-3">
+            <div className="pt-4 mt-2 border-t border-gray-100">
               <button
                 onClick={() => handleNavClick('visit')}
-                className="w-full bg-gradient-to-r from-ministry-gold to-ministry-warmGold text-ministry-dark font-bold py-3 rounded-xl shadow-md text-center flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-ministry-gold to-ministry-warmGold text-ministry-dark font-extrabold py-3.5 rounded-xl shadow-md text-center flex items-center justify-center gap-2 text-sm"
               >
                 <span>PLAN YOUR VISIT</span>
                 <ArrowRight className="w-4 h-4" />
@@ -457,4 +175,3 @@ export const Navigation: React.FC<NavigationProps> = ({
     </header>
   );
 };
-
