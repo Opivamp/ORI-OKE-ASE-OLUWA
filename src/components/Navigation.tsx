@@ -7,12 +7,17 @@ import {
   Home,
   Compass,
   Calendar,
+  Sparkles,
   Building2,
   Image as ImageIcon,
-  MessageSquare,
-  PhoneCall,
+  MessageSquareQuote,
+  Phone,
+  ChevronRight,
   MapPin,
-  ChevronRight
+  Facebook,
+  Youtube,
+  Instagram,
+  MessageCircle
 } from 'lucide-react';
 
 interface NavigationProps {
@@ -37,7 +42,7 @@ export const Navigation: React.FC<NavigationProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when mobile sidebar is open
+  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -49,17 +54,6 @@ export const Navigation: React.FC<NavigationProps> = ({
     };
   }, [mobileMenuOpen]);
 
-  // Close on Escape key
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setMobileMenuOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
   const handleNavClick = (page: string) => {
     onNavigate(page);
     setMobileMenuOpen(false);
@@ -67,19 +61,20 @@ export const Navigation: React.FC<NavigationProps> = ({
   };
 
   const navItems = [
-    { id: 'home', label: 'Home', subtitle: 'Sanctuary & Welcome', icon: Home },
-    { id: 'about', label: 'About Us', subtitle: 'Vision, 9 Missions & Founder', icon: Compass },
-    { id: 'programmes', label: 'Prayer & Retreats', subtitle: 'Daily Services & Vigils', icon: Calendar },
-    { id: 'facilities', label: 'Facilities', subtitle: 'Auditorium, Lodges & Grounds', icon: Building2 },
-    { id: 'gallery', label: 'Gallery', subtitle: 'Authentic Mountain Photography', icon: ImageIcon },
-    { id: 'testimonies', label: 'Testimonies', subtitle: 'Praise & Supernatural Acts', icon: MessageSquare },
-    { id: 'contact', label: 'Contact', subtitle: 'Directions & Enquiries', icon: PhoneCall },
+    { id: 'home', label: 'Home', desc: 'Sanctuary portal & highlights', icon: Home },
+    { id: 'about', label: 'About Us', desc: 'History, founder & divine mandate', icon: Compass },
+    { id: 'programmes', label: 'Prayer & Retreats', desc: 'Daily, Sunday & vigil timetables', icon: Calendar },
+    { id: 'events', label: 'Events', desc: 'Conferences & special gatherings', icon: Sparkles },
+    { id: 'facilities', label: 'Facilities', desc: 'Auditorium & guest chalets', icon: Building2 },
+    { id: 'gallery', label: 'Gallery', desc: 'Authentic mountain photography', icon: ImageIcon },
+    { id: 'testimonies', label: 'Testimonies', desc: 'Divine miracles & encounters', icon: MessageSquareQuote },
+    { id: 'contact', label: 'Contact', desc: 'Expressway location & enquiries', icon: Phone },
   ];
 
   return (
-    <header className={`sticky top-0 z-40 bg-white/95 backdrop-blur-md transition-all duration-300 ${isScrolled ? 'shadow-sm py-2' : 'py-3 sm:py-3.5'} border-b border-gray-100`}>
+    <header className={`sticky top-0 z-40 bg-white/95 backdrop-blur-md transition-all duration-300 ${isScrolled ? 'shadow-sm py-2' : 'py-2.5 sm:py-3.5'} border-b border-gray-100`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-6">
+        <div className="flex items-center justify-between gap-4 lg:gap-6">
           
           {/* Brand Identity / Logo */}
           <div 
@@ -104,7 +99,7 @@ export const Navigation: React.FC<NavigationProps> = ({
           </div>
 
           {/* Desktop Navigation Links - Stylish, Free & Airy */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-medium text-gray-700">
+          <nav className="hidden xl:flex items-center gap-6 2xl:gap-7 text-sm font-medium text-gray-700">
             {navItems.map((item) => {
               const isActive = currentPage === item.id;
               return (
@@ -129,7 +124,7 @@ export const Navigation: React.FC<NavigationProps> = ({
           </nav>
 
           {/* Right Action Area */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden xl:flex items-center gap-3">
             {/* Minimalist Search Button */}
             <button
               onClick={onOpenSearch}
@@ -150,7 +145,7 @@ export const Navigation: React.FC<NavigationProps> = ({
           </div>
 
           {/* Mobile Right Controls: Search + Hamburger */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-1.5 xl:hidden">
             <button
               onClick={onOpenSearch}
               aria-label="Search"
@@ -160,8 +155,8 @@ export const Navigation: React.FC<NavigationProps> = ({
             </button>
             <button
               onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open Navigation Menu"
-              className="p-2 text-ministry-forest hover:bg-gray-100 rounded-lg transition-colors active:scale-95"
+              aria-label="Open Navigation Sidebar"
+              className="p-2 text-ministry-forest hover:bg-gray-100 rounded-xl transition-colors flex items-center gap-1.5 active:scale-95"
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -170,30 +165,27 @@ export const Navigation: React.FC<NavigationProps> = ({
         </div>
       </div>
 
-      {/* Off-canvas Responsive Sidebar Drawer - Stylish & Smart */}
+      {/* STYLISH & SMART MOBILE SIDEBAR DRAWER */}
+      {/* 1. Backdrop Overlay */}
       <div 
-        className={`fixed inset-0 z-50 transition-opacity duration-300 lg:hidden ${
+        onClick={() => setMobileMenuOpen(false)}
+        className={`fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity duration-300 xl:hidden ${
           mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
-      >
-        {/* Soft Dark Blurred Backdrop (tap to close) */}
-        <div 
-          onClick={() => setMobileMenuOpen(false)}
-          className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-          aria-hidden="true"
-        />
+        aria-hidden="true"
+      />
 
-        {/* Sliding Sidebar Panel (slides in from right, leaving background visible) */}
-        <aside
-          className={`absolute top-0 right-0 bottom-0 w-[86vw] max-w-sm sm:max-w-md bg-white shadow-2xl flex flex-col justify-between overflow-hidden transform transition-transform duration-300 ease-out ${
-            mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Navigation Menu"
-        >
-          {/* 1. Sidebar Header */}
-          <div className="p-4 sm:p-5 border-b border-gray-100 bg-[#FCFCFA] flex items-center justify-between gap-3">
+      {/* 2. Slide-In Sidebar Panel (Right Off-Canvas Sheet) */}
+      <aside 
+        className={`fixed top-0 right-0 bottom-0 z-50 w-[84vw] max-w-[340px] bg-white flex flex-col shadow-2xl transition-transform duration-300 ease-out xl:hidden ${
+          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+        role="dialog"
+        aria-label="Mobile Navigation"
+      >
+        {/* Drawer Header with Forest Green Brand Banner */}
+        <div className="bg-ministry-forest text-white p-5 border-b-2 border-ministry-gold relative shrink-0">
+          <div className="flex items-center justify-between gap-3">
             <div 
               onClick={() => handleNavClick('home')}
               className="flex items-center gap-3 cursor-pointer group"
@@ -201,115 +193,153 @@ export const Navigation: React.FC<NavigationProps> = ({
               <img 
                 src="/images/logo.jpg" 
                 alt="Ori Oke Ase Oluwa Logo"
-                className="w-10 h-10 object-cover rounded-full shadow ring-2 ring-ministry-gold/60"
+                className="w-10 h-10 rounded-full object-cover ring-2 ring-ministry-gold shadow-sm"
               />
               <div className="flex flex-col text-left">
-                <span className="font-serif font-bold text-sm sm:text-base text-ministry-forest leading-tight">
+                <span className="font-serif font-bold text-sm tracking-tight text-white leading-tight">
                   ORI OKE ASE OLUWA
                 </span>
-                <span className="text-[11px] sm:text-xs font-bold text-ministry-gold tracking-wide">
+                <span className="text-[11px] font-bold text-ministry-gold tracking-wide">
                   (IBUDO IYANU)
                 </span>
               </div>
             </div>
 
-            {/* Smart Close Button */}
+            {/* Close Button */}
             <button
               onClick={() => setMobileMenuOpen(false)}
-              aria-label="Close menu"
-              className="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition-all active:scale-95"
+              aria-label="Close navigation"
+              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white flex items-center justify-center transition-all"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
-          {/* 2. Scrollable Navigation List */}
-          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1.5">
-            <div className="space-y-1">
-              {navItems.map((item) => {
-                const isActive = currentPage === item.id;
-                const ItemIcon = item.icon;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => handleNavClick(item.id)}
-                    className={`w-full group flex items-center justify-between p-2.5 sm:p-3 rounded-xl transition-all text-left ${
-                      isActive
-                        ? 'bg-ministry-forest/10 border-l-4 border-ministry-forest text-ministry-forest shadow-sm'
-                        : 'hover:bg-gray-50 text-gray-800'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                        isActive 
-                          ? 'bg-ministry-forest text-ministry-gold shadow-sm' 
-                          : 'bg-gray-100 text-ministry-forest group-hover:bg-ministry-ivory group-hover:text-ministry-forest'
-                      }`}>
-                        <ItemIcon className="w-4 h-4" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className={`text-sm tracking-tight ${
-                          isActive ? 'font-bold text-ministry-forest' : 'font-medium text-gray-800 group-hover:text-ministry-forest'
-                        }`}>
-                          {item.label}
-                        </span>
-                        <span className="text-[11px] text-gray-400 group-hover:text-gray-500 font-sans">
-                          {item.subtitle}
-                        </span>
-                      </div>
-                    </div>
+          <p className="mt-2 text-[10px] text-white/80 font-serif italic border-t border-white/10 pt-2">
+            Prayer, Spiritual Empowerment & Transformation.
+          </p>
+        </div>
 
-                    <ChevronRight className={`w-4 h-4 transition-transform ${
+        {/* Scrollable Navigation Body */}
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1.5 divide-y divide-gray-50">
+          
+          <div className="text-[10px] font-extrabold uppercase tracking-wider text-gray-400 px-3 pb-1">
+            Menu Directory
+          </div>
+
+          <div className="space-y-1 pt-1">
+            {navItems.map((item) => {
+              const isActive = currentPage === item.id;
+              const ItemIcon = item.icon;
+
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavClick(item.id)}
+                  className={`w-full text-left px-3.5 py-2.5 rounded-xl transition-all duration-200 flex items-center justify-between group ${
+                    isActive 
+                      ? 'bg-gradient-to-r from-ministry-forest to-ministry-deep text-white shadow-sm'
+                      : 'text-gray-700 hover:bg-ministry-ivory hover:text-ministry-forest'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className={`p-2 rounded-lg shrink-0 transition-colors ${
                       isActive 
-                        ? 'text-ministry-forest' 
-                        : 'text-gray-300 group-hover:text-ministry-forest group-hover:translate-x-0.5'
-                    }`} />
-                  </button>
-                );
-              })}
-            </div>
+                        ? 'bg-white/15 text-ministry-gold' 
+                        : 'bg-gray-100 text-ministry-forest group-hover:bg-white group-hover:text-ministry-gold'
+                    }`}>
+                      <ItemIcon className="w-4 h-4" />
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className={`text-sm font-semibold truncate ${isActive ? 'text-white' : 'text-gray-900 group-hover:text-ministry-forest'}`}>
+                        {item.label}
+                      </span>
+                      <span className={`text-[10px] truncate ${isActive ? 'text-white/80' : 'text-gray-400 group-hover:text-gray-600'}`}>
+                        {item.desc}
+                      </span>
+                    </div>
+                  </div>
 
-            {/* Quick Action: Search in Drawer */}
-            <div className="pt-3">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  if (onOpenSearch) onOpenSearch();
-                }}
-                className="w-full flex items-center gap-3 p-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-600 text-xs font-medium transition-colors"
-              >
-                <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-xs text-gray-500">
-                  <Search className="w-4 h-4" />
-                </div>
-                <span>Search programmes, retreats, facilities...</span>
-              </button>
+                  <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${
+                    isActive ? 'text-ministry-gold translate-x-0.5' : 'text-gray-300 group-hover:text-ministry-forest group-hover:translate-x-0.5'
+                  }`} />
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Inspirational Scripture Card */}
+          <div className="pt-3">
+            <div className="bg-ministry-ivory border border-ministry-gold/40 rounded-xl p-3 text-center">
+              <p className="font-serif italic text-xs text-ministry-forest font-semibold leading-relaxed">
+                “Call unto Me, and I will answer you...”
+              </p>
+              <span className="text-[10px] font-bold text-ministry-warmGold block mt-0.5 uppercase tracking-wider">
+                — Jeremiah 33:3
+              </span>
             </div>
           </div>
 
-          {/* 3. Smart Sidebar Footer */}
-          <div className="p-4 sm:p-5 border-t border-gray-100 bg-[#FCFCFA] space-y-3">
-            {/* Primary Action Button */}
-            <button
-              onClick={() => handleNavClick('visit')}
-              className="w-full bg-gradient-to-r from-ministry-gold to-ministry-warmGold hover:brightness-105 active:scale-95 text-ministry-dark font-extrabold py-3.5 px-4 rounded-xl shadow-md text-center flex items-center justify-center gap-2 text-sm transition-all"
+        </div>
+
+        {/* Drawer Bottom Actions & Footer */}
+        <div className="p-4 border-t border-gray-100 bg-[#FCFCFA] space-y-3 shrink-0">
+          
+          {/* Main Gold CTA */}
+          <button
+            onClick={() => handleNavClick('visit')}
+            className="w-full bg-gradient-to-r from-ministry-gold to-ministry-warmGold hover:brightness-105 active:scale-95 text-ministry-dark font-black py-3 rounded-full shadow-md text-center flex items-center justify-center gap-2 text-xs tracking-wider uppercase transition-all"
+          >
+            <span>Plan Your Visit</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+
+          {/* Location Badge */}
+          <div className="flex items-center gap-2 text-[11px] text-gray-500 justify-center">
+            <MapPin className="w-3.5 h-3.5 text-ministry-gold shrink-0" />
+            <span className="truncate">Prayer City, KM 54/400 Oyo Exp.</span>
+          </div>
+
+          {/* Social Icons Strip */}
+          <div className="flex items-center justify-center gap-3 pt-1 text-gray-400">
+            <span 
+              onClick={() => handleNavClick('contact')}
+              className="p-1.5 rounded-full hover:bg-ministry-ivory hover:text-ministry-forest transition-colors cursor-pointer"
+              title="Facebook"
             >
-              <span>PLAN YOUR VISIT</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-
-            {/* Fast Location Info */}
-            <div className="flex items-start gap-2 text-[11px] text-gray-500 bg-white p-2.5 rounded-lg border border-gray-100">
-              <MapPin className="w-3.5 h-3.5 text-ministry-gold shrink-0 mt-0.5" />
-              <span className="line-clamp-2">Prayer City, KM 54/400 New Oyo - Ogbomoso Expressway, Oyo State</span>
-            </div>
-
-            {/* Micro Scripture Quote */}
-            <p className="text-[10px] text-center font-serif italic text-gray-400">
-              “Call unto Me, and I will answer you...” — Jer. 33:3
-            </p>
+              <Facebook className="w-3.5 h-3.5" />
+            </span>
+            <span 
+              onClick={() => handleNavClick('contact')}
+              className="p-1.5 rounded-full hover:bg-ministry-ivory hover:text-ministry-forest transition-colors cursor-pointer"
+              title="YouTube"
+            >
+              <Youtube className="w-3.5 h-3.5" />
+            </span>
+            <span 
+              onClick={() => handleNavClick('contact')}
+              className="p-1.5 rounded-full hover:bg-ministry-ivory hover:text-ministry-forest transition-colors cursor-pointer"
+              title="Instagram"
+            >
+              <Instagram className="w-3.5 h-3.5" />
+            </span>
+            <span 
+              onClick={() => handleNavClick('contact')}
+              className="p-1.5 rounded-full hover:bg-ministry-ivory hover:text-ministry-forest transition-colors cursor-pointer"
+              title="WhatsApp"
+            >
+              <MessageCircle className="w-3.5 h-3.5" />
+            </span>
           </div>
-        </aside>
-      </div>
+
+          {/* Designer Credit */}
+          <div className="text-[10px] text-center text-gray-400">
+            Designed by <span className="font-semibold text-ministry-forest">Opivamp</span>
+          </div>
+
+        </div>
+      </aside>
+
     </header>
   );
 };
