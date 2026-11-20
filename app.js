@@ -282,25 +282,6 @@
         return h('svg', { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
           h('path', { d: "M7.9 20A9 9 0 1 0 4 16.1L2 22Z" })
         );
-      case 'compass':
-        return h('svg', { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
-          h('circle', { cx: "12", cy: "12", r: "10" }),
-          h('polygon', { points: "16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" })
-        );
-      case 'image':
-        return h('svg', { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
-          h('rect', { width: "18", height: "18", x: "3", y: "3", rx: "2", ry: "2" }),
-          h('circle', { cx: "9", cy: "9", r: "2" }),
-          h('path', { d: "m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" })
-        );
-      case 'message-square':
-        return h('svg', { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
-          h('path', { d: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" })
-        );
-      case 'chevron-right':
-        return h('svg', { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
-          h('path', { d: "m9 18 6-6-6-6" })
-        );
       default:
         return null;
     }
@@ -321,15 +302,6 @@
     const [testimonySubmitted, setTestimonySubmitted] = useState(false);
     const [visitSubmitted, setVisitSubmitted] = useState(false);
     const [contactSubmitted, setContactSubmitted] = useState(false);
-
-    useEffect(() => {
-      if (mobileMenuOpen) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
-      return () => { document.body.style.overflow = ''; };
-    }, [mobileMenuOpen]);
 
     const navigate = (page) => {
       setCurrentPage(page);
@@ -377,18 +349,17 @@
     // NAV
     const renderNav = () => {
       const navLinks = [
-        { id: 'home', label: 'Home', desc: 'Sanctuary portal & highlights', icon: 'home' },
-        { id: 'about', label: 'About Us', desc: 'History, founder & divine mandate', icon: 'compass' },
-        { id: 'programmes', label: 'Prayer & Retreats', desc: 'Daily, Sunday & vigil timetables', icon: 'calendar' },
-        { id: 'events', label: 'Events', desc: 'Conferences & special gatherings', icon: 'sparkles' },
-        { id: 'facilities', label: 'Facilities', desc: 'Auditorium & guest chalets', icon: 'building' },
-        { id: 'gallery', label: 'Gallery', desc: 'Authentic mountain photography', icon: 'image' },
-        { id: 'testimonies', label: 'Testimonies', desc: 'Divine miracles & encounters', icon: 'message-square' },
-        { id: 'contact', label: 'Contact', desc: 'Expressway location & enquiries', icon: 'phone' }
+        { id: 'home', label: 'Home' },
+        { id: 'about', label: 'About Us' },
+        { id: 'programmes', label: 'Prayer & Retreats' },
+        { id: 'facilities', label: 'Facilities' },
+        { id: 'gallery', label: 'Gallery' },
+        { id: 'testimonies', label: 'Testimonies' },
+        { id: 'contact', label: 'Contact' }
       ];
 
-      return h('header', { className: "sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm py-2.5 sm:py-3.5 transition-all duration-300" },
-        h('div', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 lg:gap-6" },
+      return h('header', { className: "sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm py-2.5 sm:py-3 transition-all duration-300" },
+        h('div', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-6" },
           // Brand Logo + Title
           h('div', {
             onClick: () => navigate('home'),
@@ -408,7 +379,7 @@
           ),
 
           // Desktop Links - Free, stylish, airy with underline indicator
-          h('nav', { className: "hidden xl:flex items-center gap-6 2xl:gap-7 font-medium text-sm text-gray-700" },
+          h('nav', { className: "hidden lg:flex items-center gap-6 xl:gap-8 font-medium text-sm text-gray-700" },
             navLinks.map(link => {
               const isActive = currentPage === link.id;
               return h('button', {
@@ -427,7 +398,7 @@
           ),
 
           // Desktop Right Action Area
-          h('div', { className: "hidden xl:flex items-center gap-3" },
+          h('div', { className: "hidden lg:flex items-center gap-3" },
             h('button', {
               onClick: () => setIsSearchOpen(true),
               className: "p-2.5 text-gray-500 hover:text-ministry-forest hover:bg-gray-50 rounded-full transition-colors",
@@ -443,135 +414,41 @@
           ),
 
           // Mobile Right Buttons
-          h('div', { className: "flex items-center gap-1.5 xl:hidden" },
+          h('div', { className: "flex items-center gap-2 lg:hidden" },
             h('button', {
               onClick: () => setIsSearchOpen(true),
-              className: "p-2 text-gray-600 hover:text-ministry-forest hover:bg-gray-100 rounded-full transition-colors",
+              className: "p-2 text-gray-600 hover:text-ministry-forest hover:bg-gray-100 rounded-full",
               'aria-label': "Search"
             }, h(Icon, { name: "search", className: "w-5 h-5" })),
             h('button', {
-              onClick: () => setMobileMenuOpen(true),
-              className: "p-2 text-ministry-forest hover:bg-gray-100 rounded-xl transition-colors flex items-center gap-1.5 active:scale-95",
-              'aria-label': "Open navigation menu"
-            }, h(Icon, { name: "menu", className: "w-6 h-6" }))
+              onClick: () => setMobileMenuOpen(!mobileMenuOpen),
+              className: "p-2 text-ministry-forest hover:bg-gray-100 rounded-lg",
+              'aria-label': mobileMenuOpen ? "Close menu" : "Open menu"
+            }, h(Icon, { name: mobileMenuOpen ? "x" : "menu", className: "w-6 h-6" }))
           )
         ),
 
-        // STYLISH & SMART MOBILE SIDEBAR DRAWER
-        // 1. Dark Backdrop Overlay
-        h('div', {
-          onClick: () => setMobileMenuOpen(false),
-          className: "fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity duration-300 xl:hidden " + (mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"),
-          'aria-hidden': "true"
-        }),
-
-        // 2. Off-Canvas Sliding Sidebar Sheet (Right aligned, max-w-[340px])
-        h('aside', {
-          className: "fixed top-0 right-0 bottom-0 z-50 w-[84vw] max-w-[340px] bg-white flex flex-col shadow-2xl transition-transform duration-300 ease-out xl:hidden " + (mobileMenuOpen ? "translate-x-0" : "translate-x-full"),
-          role: "dialog",
-          'aria-label': "Mobile Navigation"
-        },
-          // Header Banner
-          h('div', { className: "bg-ministry-forest text-white p-5 border-b-2 border-ministry-gold relative shrink-0" },
-            h('div', { className: "flex items-center justify-between gap-3" },
-              h('div', {
-                onClick: () => navigate('home'),
-                className: "flex items-center gap-3 cursor-pointer group"
-              },
-                h('img', {
-                  src: "/images/logo.jpg",
-                  alt: "Ori Oke Ase Oluwa Logo",
-                  className: "w-10 h-10 rounded-full object-cover ring-2 ring-ministry-gold shadow-sm"
-                }),
-                h('div', { className: "flex flex-col text-left" },
-                  h('span', { className: "font-serif font-bold text-sm tracking-tight text-white leading-tight" }, "ORI OKE ASE OLUWA"),
-                  h('span', { className: "text-[11px] font-bold text-ministry-gold tracking-wide" }, "(IBUDO IYANU)")
-                )
-              ),
+        // Mobile Menu Drawer - Spacious and Clean
+        mobileMenuOpen && h('div', { className: "lg:hidden bg-white border-t border-gray-100 px-5 pt-4 pb-8 shadow-2xl animate-fade-in" },
+          h('div', { className: "flex flex-col space-y-2" },
+            navLinks.map(link => {
+              const isActive = currentPage === link.id;
+              return h('button', {
+                key: link.id,
+                onClick: () => navigate(link.id),
+                className: `text-left px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                  isActive ? 'bg-ministry-forest text-white font-bold shadow-sm' : 'text-gray-800 hover:bg-gray-50'
+                }`
+              }, link.label);
+            }),
+            h('div', { className: "pt-4 mt-2 border-t border-gray-100" },
               h('button', {
-                onClick: () => setMobileMenuOpen(false),
-                className: "w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white flex items-center justify-center transition-all",
-                'aria-label': "Close navigation"
-              }, h(Icon, { name: "x", className: "w-4 h-4" }))
-            ),
-            h('p', { className: "mt-2 text-[10px] text-white/80 font-serif italic border-t border-white/10 pt-2" },
-              "Prayer, Spiritual Empowerment & Transformation."
-            )
-          ),
-
-          // Scrollable Links
-          h('div', { className: "flex-1 overflow-y-auto px-4 py-4 space-y-1.5 divide-y divide-gray-50" },
-            h('div', { className: "text-[10px] font-extrabold uppercase tracking-wider text-gray-400 px-3 pb-1" }, "Menu Directory"),
-            h('div', { className: "space-y-1 pt-1" },
-              navLinks.map(link => {
-                const isActive = currentPage === link.id;
-                return h('button', {
-                  key: link.id,
-                  onClick: () => navigate(link.id),
-                  className: `w-full text-left px-3.5 py-2.5 rounded-xl transition-all duration-200 flex items-center justify-between group ${
-                    isActive
-                      ? 'bg-gradient-to-r from-ministry-forest to-ministry-deep text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-ministry-ivory hover:text-ministry-forest'
-                  }`
-                },
-                  h('div', { className: "flex items-center gap-3 min-w-0" },
-                    h('div', {
-                      className: `p-2 rounded-lg shrink-0 transition-colors ${
-                        isActive 
-                          ? 'bg-white/15 text-ministry-gold' 
-                          : 'bg-gray-100 text-ministry-forest group-hover:bg-white group-hover:text-ministry-gold'
-                      }`
-                    }, h(Icon, { name: link.icon, className: "w-4 h-4" })),
-                    h('div', { className: "flex flex-col min-w-0" },
-                      h('span', { className: `text-sm font-semibold truncate ${isActive ? 'text-white' : 'text-gray-900 group-hover:text-ministry-forest'}` }, link.label),
-                      h('span', { className: `text-[10px] truncate ${isActive ? 'text-white/80' : 'text-gray-400 group-hover:text-gray-600'}` }, link.desc)
-                    )
-                  ),
-                  h(Icon, {
-                    name: "chevron-right",
-                    className: `w-4 h-4 shrink-0 transition-transform ${
-                      isActive ? 'text-ministry-gold translate-x-0.5' : 'text-gray-300 group-hover:text-ministry-forest group-hover:translate-x-0.5'
-                    }`
-                  })
-                );
-              })
-            ),
-
-            // Scripture Card in Drawer
-            h('div', { className: "pt-3" },
-              h('div', { className: "bg-ministry-ivory border border-ministry-gold/40 rounded-xl p-3 text-center" },
-                h('p', { className: "font-serif italic text-xs text-ministry-forest font-semibold leading-relaxed" },
-                  "“Call unto Me, and I will answer you...”"
-                ),
-                h('span', { className: "text-[10px] font-bold text-ministry-warmGold block mt-0.5 uppercase tracking-wider" },
-                  "— Jeremiah 33:3"
-                )
+                onClick: () => navigate('visit'),
+                className: "w-full bg-gradient-to-r from-ministry-gold to-ministry-warmGold text-ministry-dark font-extrabold py-3.5 rounded-xl shadow-md text-center flex items-center justify-center gap-2 text-sm"
+              },
+                h('span', null, "PLAN YOUR VISIT"),
+                h(Icon, { name: "arrow-right", className: "w-4 h-4" })
               )
-            )
-          ),
-
-          // Drawer Bottom Actions & Footer
-          h('div', { className: "p-4 border-t border-gray-100 bg-[#FCFCFA] space-y-3 shrink-0" },
-            h('button', {
-              onClick: () => navigate('visit'),
-              className: "w-full bg-gradient-to-r from-ministry-gold to-ministry-warmGold hover:brightness-105 active:scale-95 text-ministry-dark font-black py-3 rounded-full shadow-md text-center flex items-center justify-center gap-2 text-xs tracking-wider uppercase transition-all"
-            },
-              h('span', null, "Plan Your Visit"),
-              h(Icon, { name: "arrow-right", className: "w-4 h-4" })
-            ),
-            h('div', { className: "flex items-center gap-2 text-[11px] text-gray-500 justify-center" },
-              h(Icon, { name: "map-pin", className: "w-3.5 h-3.5 text-ministry-gold shrink-0" }),
-              h('span', { className: "truncate" }, "Prayer City, KM 54/400 Oyo Exp.")
-            ),
-            h('div', { className: "flex items-center justify-center gap-3 pt-1 text-gray-400" },
-              h('span', { className: "p-1.5 rounded-full hover:bg-ministry-ivory hover:text-ministry-forest transition-colors cursor-pointer", onClick: () => navigate('contact'), title: "Facebook" }, h(Icon, { name: "facebook", className: "w-3.5 h-3.5" })),
-              h('span', { className: "p-1.5 rounded-full hover:bg-ministry-ivory hover:text-ministry-forest transition-colors cursor-pointer", onClick: () => navigate('contact'), title: "YouTube" }, h(Icon, { name: "youtube", className: "w-3.5 h-3.5" })),
-              h('span', { className: "p-1.5 rounded-full hover:bg-ministry-ivory hover:text-ministry-forest transition-colors cursor-pointer", onClick: () => navigate('contact'), title: "Instagram" }, h(Icon, { name: "instagram", className: "w-3.5 h-3.5" })),
-              h('span', { className: "p-1.5 rounded-full hover:bg-ministry-ivory hover:text-ministry-forest transition-colors cursor-pointer", onClick: () => navigate('contact'), title: "WhatsApp" }, h(Icon, { name: "whatsapp", className: "w-3.5 h-3.5" }))
-            ),
-            h('div', { className: "text-[10px] text-center text-gray-400" },
-              "Designed by ",
-              h('span', { className: "font-semibold text-ministry-forest" }, "Opivamp")
             )
           )
         )
