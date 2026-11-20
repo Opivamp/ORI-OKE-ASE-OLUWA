@@ -32,7 +32,7 @@ export const Footer: React.FC<FooterProps> = ({
             “{scriptures.footer.verse}”
           </p>
           <span className="inline-block mt-2 text-xs font-semibold tracking-wider text-gray-300 uppercase">
-            — {scriptures.footer.reference}
+            {scriptures.footer.reference}
           </span>
         </div>
 

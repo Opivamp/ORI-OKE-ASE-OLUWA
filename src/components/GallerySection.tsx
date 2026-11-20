@@ -135,13 +135,6 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onNavigate, show
                   {img.title}
                 </p>
               </div>
-
-              {/* Real Photo Badge for authenticity */}
-              {img.isRealPhoto && (
-                <div className="absolute top-1.5 left-1.5 bg-black/60 backdrop-blur-xs text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow">
-                  Real Photo
-                </div>
-              )}
             </div>
           ))}
         </div>

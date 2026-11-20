@@ -500,7 +500,7 @@
                 }, "Explore The Mountain")
               )
             ),
-            h('div', { className: "self-end lg:self-start lg:mt-2" },
+            h('div', { className: "self-center mx-auto lg:mx-0 lg:self-start lg:mt-2" },
               h('div', { className: "bg-white/90 backdrop-blur-md border border-white/60 text-ministry-dark px-5 py-4 sm:px-6 sm:py-5 rounded-2xl shadow-elevated max-w-xs sm:max-w-sm text-center transform lg:hover:-translate-y-1 transition-transform" },
                 h('span', { className: "text-3xl font-serif text-ministry-forest font-bold leading-none block -mb-2" }, "“"),
                 h('p', { className: "font-serif italic text-ministry-deep text-lg sm:text-xl font-bold leading-snug mb-3" }, ministryData.scriptures.hero.verse),
@@ -529,7 +529,7 @@
               h('button', {
                 key: idx,
                 onClick: () => navigate(item.page),
-                className: "flex items-center justify-center gap-3 py-2 px-3 hover:bg-white/80 rounded-xl transition-all group text-left w-full focus:outline-none"
+                className: `flex items-center justify-center gap-3 py-2 px-3 hover:bg-white/80 rounded-xl transition-all group text-left w-full focus:outline-none ${idx === 4 ? 'col-span-2 md:col-span-1 max-w-xs mx-auto md:max-w-none' : ''}`
               },
                 h('div', { className: "p-2.5 rounded-full bg-ministry-forest/10 group-hover:bg-ministry-forest group-hover:text-ministry-gold text-ministry-forest transition-colors shrink-0" },
                   h(Icon, { name: item.icon, className: "w-5 h-5 text-ministry-forest" })
@@ -748,8 +748,7 @@
                 h('div', { className: "absolute inset-0 bg-gradient-to-t from-ministry-forest/90 via-ministry-forest/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-2.5 flex flex-col justify-end text-white" },
                   h('span', { className: "text-ministry-gold font-semibold text-[11px] truncate" }, img.categoryLabel),
                   h('p', { className: "text-[11px] text-gray-200 line-clamp-2 leading-tight" }, img.title)
-                ),
-                img.isRealPhoto && h('div', { className: "absolute top-1.5 left-1.5 bg-black/60 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow" }, "Real Photo")
+                )
               )
             )
           )
@@ -802,7 +801,7 @@
               `“${ministryData.scriptures.footer.verse}”`
             ),
             h('span', { className: "inline-block mt-1 text-xs font-semibold tracking-wider text-gray-300 uppercase" },
-              `— ${ministryData.scriptures.footer.reference}`
+              ministryData.scriptures.footer.reference
             )
           ),
           h('div', { className: "pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-300" },
@@ -1419,8 +1418,7 @@
                 h('div', { className: "absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-end text-white" },
                   h('span', { className: "text-ministry-gold text-xs font-bold" }, img.categoryLabel),
                   h('p', { className: "text-xs text-gray-200 line-clamp-2" }, img.title)
-                ),
-                img.isRealPhoto && h('div', { className: "absolute top-2 left-2 bg-black/60 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow" }, "Real Photo")
+                )
               )
             )
           )

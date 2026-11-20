@@ -82,8 +82,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
 
           </div>
 
-          {/* Right Column: Floating Scripture Badge */}
-          <div className="self-end lg:self-start lg:mt-2">
+          {/* Right Column: Floating Scripture Badge (Centralised on mobile) */}
+          <div className="self-center mx-auto lg:mx-0 lg:self-start lg:mt-2">
             <div className="bg-white/90 backdrop-blur-md border border-white/60 text-ministry-dark px-5 py-4 sm:px-6 sm:py-5 rounded-2xl shadow-elevated max-w-xs sm:max-w-sm text-center transform lg:hover:-translate-y-1 transition-transform">
               <span className="text-3xl font-serif text-ministry-forest font-bold leading-none block -mb-2">“</span>
               <p className="font-serif italic text-ministry-deep text-lg sm:text-xl font-bold leading-snug mb-3">

@@ -59,7 +59,9 @@ export const HighlightBar: React.FC<HighlightBarProps> = ({ onNavigate }) => {
                 onNavigate(item.page);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="flex items-center justify-center gap-3 py-2 px-3 hover:bg-white/80 rounded-xl transition-all group text-left w-full focus:outline-none"
+              className={`flex items-center justify-center gap-3 py-2 px-3 hover:bg-white/80 rounded-xl transition-all group text-left w-full focus:outline-none ${
+                index === 4 ? 'col-span-2 md:col-span-1 max-w-xs mx-auto md:max-w-none' : ''
+              }`}
             >
               <div className="p-2.5 rounded-full bg-ministry-forest/10 group-hover:bg-ministry-forest group-hover:text-ministry-gold text-ministry-forest transition-colors shrink-0">
                 {item.icon}
