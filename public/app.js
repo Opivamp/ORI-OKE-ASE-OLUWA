@@ -198,6 +198,31 @@
         return h('svg', { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
           h('path', { d: "M5 12h14M12 5l7 7-7 7" })
         );
+      case 'chevron-right':
+        return h('svg', { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
+          h('path', { d: "m9 18 6-6-6-6" })
+        );
+      case 'compass':
+        return h('svg', { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
+          h('circle', { cx: "12", cy: "12", r: "10" }),
+          h('polygon', { points: "16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" })
+        );
+      case 'image':
+        return h('svg', { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
+          h('rect', { width: "18", height: "18", x: "3", y: "3", rx: "2", ry: "2" }),
+          h('circle', { cx: "9", cy: "9", r: "2" }),
+          h('path', { d: "m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" })
+        );
+      case 'message-square':
+        return h('svg', { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
+          h('path', { d: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" })
+        );
+      case 'phone-call':
+        return h('svg', { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
+          h('path', { d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" }),
+          h('path', { d: "M14.05 2a9 9 0 0 1 8 7.94" }),
+          h('path', { d: "M14.05 6A5 5 0 0 1 18 10" })
+        );
       case 'search':
         return h('svg', { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
           h('circle', { cx: "11", cy: "11", r: "8" }),
@@ -302,6 +327,25 @@
     const [testimonySubmitted, setTestimonySubmitted] = useState(false);
     const [visitSubmitted, setVisitSubmitted] = useState(false);
     const [contactSubmitted, setContactSubmitted] = useState(false);
+
+    // Lock body scroll when mobile sidebar is open
+    useEffect(() => {
+      if (mobileMenuOpen) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+      return () => { document.body.style.overflow = ''; };
+    }, [mobileMenuOpen]);
+
+    // Close sidebar on Escape key
+    useEffect(() => {
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') setMobileMenuOpen(false);
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
 
     const navigate = (page) => {
       setCurrentPage(page);
@@ -421,33 +465,139 @@
               'aria-label': "Search"
             }, h(Icon, { name: "search", className: "w-5 h-5" })),
             h('button', {
-              onClick: () => setMobileMenuOpen(!mobileMenuOpen),
-              className: "p-2 text-ministry-forest hover:bg-gray-100 rounded-lg",
-              'aria-label': mobileMenuOpen ? "Close menu" : "Open menu"
-            }, h(Icon, { name: mobileMenuOpen ? "x" : "menu", className: "w-6 h-6" }))
+              onClick: () => setMobileMenuOpen(true),
+              className: "p-2 text-ministry-forest hover:bg-gray-100 rounded-lg transition-colors active:scale-95",
+              'aria-label': "Open Navigation Menu"
+            }, h(Icon, { name: "menu", className: "w-6 h-6" }))
           )
         ),
 
-        // Mobile Menu Drawer - Spacious and Clean
-        mobileMenuOpen && h('div', { className: "lg:hidden bg-white border-t border-gray-100 px-5 pt-4 pb-8 shadow-2xl animate-fade-in" },
-          h('div', { className: "flex flex-col space-y-2" },
-            navLinks.map(link => {
-              const isActive = currentPage === link.id;
-              return h('button', {
-                key: link.id,
-                onClick: () => navigate(link.id),
-                className: `text-left px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                  isActive ? 'bg-ministry-forest text-white font-bold shadow-sm' : 'text-gray-800 hover:bg-gray-50'
-                }`
-              }, link.label);
-            }),
-            h('div', { className: "pt-4 mt-2 border-t border-gray-100" },
+        // Off-canvas Responsive Sidebar Drawer - Stylish & Smart
+        h('div', {
+          className: `fixed inset-0 z-50 transition-opacity duration-300 lg:hidden ${
+            mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`
+        },
+          // Soft Dark Blurred Backdrop (tap to close)
+          h('div', {
+            onClick: () => setMobileMenuOpen(false),
+            className: "absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity",
+            'aria-hidden': "true"
+          }),
+
+          // Sliding Sidebar Panel (slides in smoothly from right)
+          h('aside', {
+            className: `absolute top-0 right-0 bottom-0 w-[86vw] max-w-sm sm:max-w-md bg-white shadow-2xl flex flex-col justify-between overflow-hidden transform transition-transform duration-300 ease-out ${
+              mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+            }`,
+            role: "dialog",
+            'aria-modal': "true",
+            'aria-label': "Navigation Menu"
+          },
+            // 1. Sidebar Header
+            h('div', { className: "p-4 sm:p-5 border-b border-gray-100 bg-[#FCFCFA] flex items-center justify-between gap-3 shrink-0" },
+              h('div', {
+                onClick: () => navigate('home'),
+                className: "flex items-center gap-3 cursor-pointer group"
+              },
+                h('img', {
+                  src: "/images/logo.jpg",
+                  alt: "Ori Oke Ase Oluwa Logo",
+                  className: "w-10 h-10 object-cover rounded-full shadow ring-2 ring-ministry-gold/60"
+                }),
+                h('div', { className: "flex flex-col text-left" },
+                  h('span', { className: "font-serif font-bold text-sm sm:text-base text-ministry-forest leading-tight" }, "ORI OKE ASE OLUWA"),
+                  h('span', { className: "text-[11px] sm:text-xs font-bold text-ministry-gold tracking-wide" }, "(IBUDO IYANU)")
+                )
+              ),
+              h('button', {
+                onClick: () => setMobileMenuOpen(false),
+                'aria-label': "Close menu",
+                className: "w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition-all active:scale-95"
+              }, h(Icon, { name: "x", className: "w-5 h-5" }))
+            ),
+
+            // 2. Scrollable Navigation List with Rich Icons and Subtitles
+            h('div', { className: "flex-1 overflow-y-auto px-4 py-4 space-y-1.5" },
+              h('div', { className: "space-y-1" },
+                [
+                  { id: 'home', label: 'Home', subtitle: 'Sanctuary & Welcome', icon: 'home' },
+                  { id: 'about', label: 'About Us', subtitle: 'Vision, 9 Missions & Founder', icon: 'compass' },
+                  { id: 'programmes', label: 'Prayer & Retreats', subtitle: 'Daily Services & Vigils', icon: 'calendar' },
+                  { id: 'facilities', label: 'Facilities', subtitle: 'Auditorium, Lodges & Grounds', icon: 'building' },
+                  { id: 'gallery', label: 'Gallery', subtitle: 'Authentic Mountain Photography', icon: 'image' },
+                  { id: 'testimonies', label: 'Testimonies', subtitle: 'Praise & Supernatural Acts', icon: 'message-square' },
+                  { id: 'contact', label: 'Contact', subtitle: 'Directions & Enquiries', icon: 'phone-call' }
+                ].map(item => {
+                  const isActive = currentPage === item.id;
+                  return h('button', {
+                    key: item.id,
+                    onClick: () => navigate(item.id),
+                    className: `w-full group flex items-center justify-between p-2.5 sm:p-3 rounded-xl transition-all text-left ${
+                      isActive
+                        ? 'bg-ministry-forest/10 border-l-4 border-ministry-forest text-ministry-forest shadow-sm'
+                        : 'hover:bg-gray-50 text-gray-800'
+                    }`
+                  },
+                    h('div', { className: "flex items-center gap-3" },
+                      h('div', {
+                        className: `w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                          isActive
+                            ? 'bg-ministry-forest text-ministry-gold shadow-sm'
+                            : 'bg-gray-100 text-ministry-forest group-hover:bg-ministry-ivory group-hover:text-ministry-forest'
+                        }`
+                      }, h(Icon, { name: item.icon, className: "w-4 h-4" })),
+                      h('div', { className: "flex flex-col" },
+                        h('span', {
+                          className: `text-sm tracking-tight ${
+                            isActive ? 'font-bold text-ministry-forest' : 'font-medium text-gray-800 group-hover:text-ministry-forest'
+                          }`
+                        }, item.label),
+                        h('span', { className: "text-[11px] text-gray-400 group-hover:text-gray-500 font-sans" }, item.subtitle)
+                      )
+                    ),
+                    h(Icon, {
+                      name: "chevron-right",
+                      className: `w-4 h-4 transition-transform ${
+                        isActive ? 'text-ministry-forest' : 'text-gray-300 group-hover:text-ministry-forest group-hover:translate-x-0.5'
+                      }`
+                    })
+                  );
+                })
+              ),
+
+              // Search Shortcut
+              h('div', { className: "pt-3" },
+                h('button', {
+                  onClick: () => {
+                    setMobileMenuOpen(false);
+                    setIsSearchOpen(true);
+                  },
+                  className: "w-full flex items-center gap-3 p-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-600 text-xs font-medium transition-colors"
+                },
+                  h('div', { className: "w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-xs text-gray-500" },
+                    h(Icon, { name: "search", className: "w-4 h-4" })
+                  ),
+                  h('span', null, "Search programmes, retreats, facilities...")
+                )
+              )
+            ),
+
+            // 3. Smart Sidebar Footer
+            h('div', { className: "p-4 sm:p-5 border-t border-gray-100 bg-[#FCFCFA] space-y-3 shrink-0" },
               h('button', {
                 onClick: () => navigate('visit'),
-                className: "w-full bg-gradient-to-r from-ministry-gold to-ministry-warmGold text-ministry-dark font-extrabold py-3.5 rounded-xl shadow-md text-center flex items-center justify-center gap-2 text-sm"
+                className: "w-full bg-gradient-to-r from-ministry-gold to-ministry-warmGold hover:brightness-105 active:scale-95 text-ministry-dark font-extrabold py-3.5 px-4 rounded-xl shadow-md text-center flex items-center justify-center gap-2 text-sm transition-all"
               },
                 h('span', null, "PLAN YOUR VISIT"),
                 h(Icon, { name: "arrow-right", className: "w-4 h-4" })
+              ),
+              h('div', { className: "flex items-start gap-2 text-[11px] text-gray-500 bg-white p-2.5 rounded-lg border border-gray-100" },
+                h(Icon, { name: "map-pin", className: "w-3.5 h-3.5 text-ministry-gold shrink-0 mt-0.5" }),
+                h('span', { className: "line-clamp-2" }, "Prayer City, KM 54/400 New Oyo - Ogbomoso Expressway, Oyo State")
+              ),
+              h('p', { className: "text-[10px] text-center font-serif italic text-gray-400" },
+                "“Call unto Me, and I will answer you...” — Jer. 33:3"
               )
             )
           )
